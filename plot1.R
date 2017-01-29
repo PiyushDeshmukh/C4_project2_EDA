@@ -1,11 +1,14 @@
-
-require(ggplot2)
-
 file_name = "FNEI_data/summarySCC_PM25.rds"
 NEI <- readRDS(file_name)
-data <- aggregate(NEI[c("Emissions")], list(year = NEI$year), sum)
+data <- aggregate(Emissions ~ year, NEI, sum)
 
-png('plot1.png', width=480, height=480)
+png('plot1.png', width = 480, height = 480)
 
-plot(data$year, data$Emissions, type = "l", main = "Total PM2.5 Emission in the US 1999-2008", xlab = "Year", ylab = "Emissions")
+barplot(
+  (data$Emissions)/10^6,
+  names.arg = data$year,
+  xlab = "Year",
+  ylab = "PM2.5 Emissions (10^6 Tons)",
+  main = "Total PM2.5 Emissions From All US Sources"
+)
 dev.off()
